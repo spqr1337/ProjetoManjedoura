@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Doencas por Gestacao{% endblock %}
+{% block page_title %}Registro de Doencas por Gestacao{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Associar doencas a gestacao</h2>
+    <form method="POST" class="stack">
+        <label for="id_gest">ID da gestacao</label>
+        <input type="number" id="id_gest" name="id_gest" required>
+
+        <label for="id_doenca">Doenca</label>
+        <select id="id_doenca" name="id_doenca">
+            {% for doenca in doencas %}
+            <option value="{{ doenca.id }}">{{ doenca.nome_doenca }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="data_diagnostico">Data do diagnostico</label>
+        <input type="date" id="data_diagnostico" name="data_diagnostico" required>
+
+        <label for="observacoes">Observacoes</label>
+        <textarea id="observacoes" name="observacoes"></textarea>
+
+        <button type="submit">Registrar doenca</button>
+    </form>
+</section>
+
+<section class="card">
+    <h2>Lista de registros</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID da gestacao</th>
+                <th>Doenca</th>
+                <th>Data do diagnostico</th>
+                <th>Observacoes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registro in gestacoes_doencas %}
+            <tr>
+                <td>{{ registro.id_gest }}</td>
+                <td>{{ registro.nome_doenca }}</td>
+                <td>{{ registro.data_diagnostico }}</td>
+                <td>{{ registro.observacoes }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">Nenhum registro encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

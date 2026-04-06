@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Gestacoes Ativas{% endblock %}
+{% block page_title %}Gestacoes Ativas{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Selecione uma gestacao</h2>
+    <ul class="list-links">
+        {% for gestacao in gestacoes_ativas %}
+        <li>
+            <a href="{{ url_for('main.registrar_consulta', id_gest=gestacao['id_gest']) }}">
+                <strong>{{ gestacao['nome_gest'] }}</strong> - CNS: {{ gestacao['cns'] }} - ID: {{ gestacao['id_gest'] }} - {{ gestacao['semanas'] }} semanas
+            </a>
+        </li>
+        {% else %}
+        <li>Nenhuma gestacao ativa encontrada.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

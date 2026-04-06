@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro de Profissionais{% endblock %}
+{% block page_title %}Cadastro de Profissionais{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Adicionar novo profissional</h2>
+    <form method="POST" class="stack">
+        <label for="nome_prof">Nome do profissional</label>
+        <input type="text" id="nome_prof" name="nome_prof" required>
+
+        <label for="tipo_prof">Tipo de profissional</label>
+        <select id="tipo_prof" name="tipo_prof" required>
+            <option value="" disabled selected>Selecione</option>
+            <option value="Médico">Medico</option>
+            <option value="Enfermeiro">Enfermeiro</option>
+        </select>
+
+        <button type="submit">Adicionar profissional</button>
+    </form>
+</section>
+
+<section class="card">
+    <h2>Lista de profissionais</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Tipo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profissional in profissionais %}
+            <tr>
+                <td>{{ profissional['id_prof'] }}</td>
+                <td>{{ profissional['nome_prof'] }}</td>
+                <td>{{ profissional['tipo_prof'] }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">Nenhum profissional cadastrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

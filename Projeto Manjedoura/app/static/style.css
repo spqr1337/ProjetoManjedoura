@@ -1,0 +1,291 @@
+:root {
+    --bg: #f4f7fb;
+    --surface: #ffffff;
+    --surface-muted: #eef3fb;
+    --border: #d7e0ee;
+    --text: #16324f;
+    --text-soft: #51647c;
+    --primary: #0a6ebd;
+    --primary-dark: #085691;
+    --success: #198754;
+    --danger: #c0392b;
+    --shadow: 0 18px 45px rgba(10, 47, 89, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background:
+        radial-gradient(circle at top, rgba(10, 110, 189, 0.08), transparent 30%),
+        var(--bg);
+    color: var(--text);
+}
+
+a {
+    color: inherit;
+}
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(10, 47, 89, 0.04);
+}
+
+.brand {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.nav-links,
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.nav-links a,
+.logout-button {
+    text-decoration: none;
+    padding: 0.65rem 0.9rem;
+    border-radius: 999px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-links a:hover {
+    background: var(--surface-muted);
+}
+
+.logout-button {
+    background: var(--danger);
+    color: #fff;
+}
+
+.logout-button:hover {
+    background: #a42d22;
+}
+
+.page-shell {
+    width: min(1100px, calc(100% - 2rem));
+    margin: 2rem auto;
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
+.page-header h1,
+.login-container h1,
+h2,
+h3 {
+    margin-top: 0;
+}
+
+.card,
+.login-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.stack {
+    display: grid;
+    gap: 0.85rem;
+}
+
+label {
+    font-weight: 600;
+    color: var(--text);
+}
+
+input,
+select,
+textarea,
+button {
+    font: inherit;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--text);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid rgba(10, 110, 189, 0.2);
+    border-color: var(--primary);
+}
+
+button {
+    border: none;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    background: var(--primary);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.toggle-grid {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.toggle-button {
+    width: auto;
+}
+
+.toggle-button.off {
+    background: var(--success);
+}
+
+.toggle-button.on {
+    background: var(--danger);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+th,
+td {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+}
+
+thead th {
+    background: var(--surface-muted);
+}
+
+tbody tr:nth-child(even) {
+    background: rgba(238, 243, 251, 0.55);
+}
+
+.list-links {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.list-links li + li {
+    margin-top: 0.65rem;
+}
+
+.list-links a {
+    text-decoration: none;
+    color: var(--primary-dark);
+}
+
+.feature-list {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.inline-form {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.login-page {
+    display: grid;
+    place-items: center;
+}
+
+.login-page .page-shell {
+    width: min(480px, calc(100% - 2rem));
+    margin-top: 6rem;
+}
+
+.login-container {
+    margin-bottom: 0;
+}
+
+.error {
+    color: var(--danger);
+    margin: 0;
+}
+
+.site-footer {
+    padding: 1rem 1.5rem 2rem;
+    text-align: center;
+    color: var(--text-soft);
+}
+
+@media (max-width: 860px) {
+    .site-nav {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .nav-links,
+    .user-info {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .page-shell {
+        width: min(100% - 1rem, 1100px);
+        margin: 1rem auto;
+    }
+
+    .card,
+    .login-container {
+        padding: 1rem;
+        border-radius: 16px;
+    }
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tbody tr {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    tbody td {
+        padding: 0.45rem 0;
+        border: none;
+    }
+}

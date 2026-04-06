@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Relatorios{% endblock %}
+{% block page_title %}Relatorios{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Relatorios disponiveis</h2>
+    <table>
+        <tbody>
+            <tr>
+                <td><h3>Numero de gestacoes em acompanhamento</h3></td>
+                <td>
+                    <button type="button" onclick="window.location.href='{{ url_for('main.gerar_relatorio_gestacoes') }}'">
+                        Gerar
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td><h3>Previsao de demanda</h3></td>
+                <td>
+                    <button type="button" onclick="window.location.href='{{ url_for('main.gerar_previsao_demanda') }}'">
+                        Gerar
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td><h3>Relatorio de consultas</h3></td>
+                <td>
+                    <form action="{{ url_for('main.gerar_txt') }}" method="POST" target="_blank" class="inline-form">
+                        <label for="prontuario">Numero do prontuario</label>
+                        <input type="text" id="prontuario" name="prontuario" required>
+                        <button type="submit">Gerar</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><h3>Previsao detalhada de consultas</h3></td>
+                <td>
+                    <form action="{{ url_for('main.previsao_detalhada') }}" method="POST" target="_blank" class="inline-form">
+                        <label for="segunda">Data inicial</label>
+                        <input type="date" id="segunda" name="segunda" required>
+                        <label for="sexta">Data final</label>
+                        <input type="date" id="sexta" name="sexta" required>
+                        <button type="submit">Gerar</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><h3>Gestantes atrasadas</h3></td>
+                <td>
+                    <form action="{{ url_for('main.gestantes_atrasadas') }}" method="POST" target="_blank">
+                        <button type="submit">Gerar</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+{% endblock %}

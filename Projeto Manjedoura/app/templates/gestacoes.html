@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro de Gestacoes{% endblock %}
+{% block page_title %}Cadastro de Gestacoes{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Registrar nova gestacao</h2>
+    <form method="POST" class="stack">
+        <label for="cns">Selecione a gestante</label>
+        <select id="cns" name="cns" required>
+            <option value="" disabled selected>Selecione uma gestante</option>
+            {% for gestante in gestantes %}
+            <option value="{{ gestante['cns'] }}">{{ gestante['nome_gest'] }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="dum">Data da ultima menstruacao (DUM)</label>
+        <input type="date" id="dum" name="dum" required onchange="calculateDPP()">
+
+        <label for="dpp">Data provavel do parto (DPP)</label>
+        <input type="date" id="dpp" name="dpp" readonly>
+
+        <label for="num_gestas">Numero de gestacoes anteriores</label>
+        <input type="number" id="num_gestas" name="num_gestas" required>
+
+        <label for="risco">Risco gestacional</label>
+        <select id="risco" name="risco">
+            <option value="nenhum">Nenhum</option>
+            <option value="baixo">Baixo</option>
+            <option value="moderado">Moderado</option>
+            <option value="alto">Alto</option>
+        </select>
+
+        <label>Doencas associadas</label>
+        <div id="doencas-container" class="toggle-grid">
+            {% for doenca in doencas %}
+            <button type="button" class="toggle-button off" data-id="{{ doenca['id_doenca'] }}">
+                {{ doenca['nome_doenca'] }}
+            </button>
+            {% endfor %}
+        </div>
+        <input type="hidden" id="doencas" name="doencas">
+
+        <label>Condicoes pre-existentes (CPAR)</label>
+        <div id="cpar-container" class="toggle-grid">
+            {% for condicao in cpar %}
+            <button type="button" class="toggle-button off" data-id="{{ condicao['id_condicao'] }}">
+                {{ condicao['nome_condicao'] }}
+            </button>
+            {% endfor %}
+        </div>
+        <input type="hidden" id="cpar" name="cpar">
+
+        <label>Vacinas recebidas</label>
+        <div id="vacinas-container" class="toggle-grid">
+            {% for vacina in vacinas %}
+            <button type="button" class="toggle-button off" data-id="{{ vacina['id_vacina'] }}">
+                {{ vacina['nome_vacina'] }}
+            </button>
+            {% endfor %}
+        </div>
+        <input type="hidden" id="vacinas" name="vacinas">
+
+        <label for="data_diagnostico">Data do diagnostico</label>
+        <input type="date" id="data_diagnostico" name="data_diagnostico" required>
+
+        <button type="submit">Registrar gestacao</button>
+    </form>
+</section>
+
+<section class="card">
+    <h2>Lista de gestacoes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CNS</th>
+                <th>DUM</th>
+                <th>DPP</th>
+                <th>Risco</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gestacao in gestacoes %}
+            <tr>
+                <td>{{ gestacao['nome_gest'] }}</td>
+                <td>{{ gestacao['cns'] }}</td>
+                <td>{{ gestacao['dum'] }}</td>
+                <td>{{ gestacao['dpp'] }}</td>
+                <td>{{ gestacao['risco'] or 'Nao informado' }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5">Nenhuma gestacao cadastrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function calculateDPP() {
+        const dumInput = document.getElementById('dum');
+        const dppInput = document.getElementById('dpp');
+
+        if (!dumInput.value) {
+            dppInput.value = '';
+            return;
+        }
+
+        const dumDate = new Date(dumInput.value);
+        dumDate.setDate(dumDate.getDate() + 280);
+
+        const year = dumDate.getFullYear();
+        const month = String(dumDate.getMonth() + 1).padStart(2, '0');
+        const day = String(dumDate.getDate()).padStart(2, '0');
+        dppInput.value = `${year}-${month}-${day}`;
+    }
+
+    function setupToggleButtons(containerId, inputId) {
+        const container = document.getElementById(containerId);
+        const input = document.getElementById(inputId);
+
+        container.addEventListener('click', (event) => {
+            const button = event.target.closest('button');
+            if (!button) {
+                return;
+            }
+
+            button.classList.toggle('on');
+            button.classList.toggle('off');
+
+            const selected = Array.from(container.querySelectorAll('.toggle-button.on'))
+                .map((btn) => btn.getAttribute('data-id'));
+            input.value = selected.join(',');
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const field = document.getElementById('data_diagnostico');
+        const today = new Date();
+        field.value = today.toISOString().split('T')[0];
+
+        setupToggleButtons('doencas-container', 'doencas');
+        setupToggleButtons('cpar-container', 'cpar');
+        setupToggleButtons('vacinas-container', 'vacinas');
+    });
+</script>
+{% endblock %}

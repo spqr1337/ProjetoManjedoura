@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro de Gestantes{% endblock %}
+{% block page_title %}Cadastro de Gestantes{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Adicionar nova gestante</h2>
+    <form method="POST" class="stack">
+        <label for="nome_gest">Nome da gestante</label>
+        <input type="text" id="nome_gest" name="nome_gest" required>
+
+        <label for="data_nasc">Data de nascimento</label>
+        <input type="date" id="data_nasc" name="data_nasc" required>
+
+        <label for="cns">CNS</label>
+        <input type="text" id="cns" name="cns" required>
+
+        <label for="pront">Prontuario</label>
+        <input type="text" id="pront" name="pront" required>
+
+        <label for="blood_type">Tipo sanguineo</label>
+        <select id="blood_type" name="blood_type" required>
+            <option value="">Selecione</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+        </select>
+
+        <button type="submit">Adicionar gestante</button>
+    </form>
+</section>
+
+<section class="card">
+    <h2>Lista de gestantes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CNS</th>
+                <th>Prontuario</th>
+                <th>Tipo sanguineo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gestante in gestantes %}
+            <tr>
+                <td>{{ gestante['nome_gest'] }}</td>
+                <td>{{ gestante['cns'] }}</td>
+                <td>{{ gestante['pront'] }}</td>
+                <td>{{ gestante['blood_type'] }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">Nenhuma gestante cadastrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

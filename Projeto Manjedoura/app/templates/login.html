@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% set show_navigation = false %}
+
+{% block title %}Login{% endblock %}
+{% block body_class %}login-page{% endblock %}
+
+{% block content %}
+<section class="login-container">
+    <h1>Login</h1>
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+    <form method="POST" action="{{ url_for('main.login') }}" class="stack">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" name="username" placeholder="Digite seu usuario" required>
+
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+
+        <button type="submit">Entrar</button>
+    </form>
+</section>
+{% endblock %}

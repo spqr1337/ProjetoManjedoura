@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Registro de Consulta{% endblock %}
+{% block page_title %}Registro de Consulta - {{ gestacao['nome_gest'] }}{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Registrar nova consulta</h2>
+    <form method="POST" class="stack">
+        <input type="hidden" name="id_gest" value="{{ gestacao['id_gest'] }}">
+
+        <label for="data_cons">Data da consulta</label>
+        <input type="date" id="data_cons" name="data_cons" required>
+
+        <label for="peso">Peso da gestante (kg)</label>
+        <input type="number" step="0.1" id="peso" name="peso">
+
+        <label for="press_art">Pressao arterial</label>
+        <input type="text" id="press_art" name="press_art">
+
+        <label for="bat_fet">Batimentos fetais</label>
+        <input type="text" id="bat_fet" name="bat_fet">
+
+        <label for="alt_ute">Altura uterina (cm)</label>
+        <input type="number" step="0.1" id="alt_ute" name="alt_ute">
+
+        <label for="obs">Registro da consulta</label>
+        <textarea id="obs" name="obs" rows="5"></textarea>
+
+        <label>Doencas associadas</label>
+        <div id="doencas-container" class="toggle-grid">
+            {% for doenca in doencas %}
+            <button
+                type="button"
+                class="toggle-button {% if doenca['id_doenca'] in doencas_selecionadas %}on{% else %}off{% endif %}"
+                data-id="{{ doenca['id_doenca'] }}"
+            >
+                {{ doenca['nome_doenca'] }}
+            </button>
+            {% endfor %}
+        </div>
+        <input type="hidden" id="doencas" name="doencas">
+
+        <button type="submit">Registrar consulta</button>
+    </form>
+</section>
+
+<section class="card">
+    <h2>Consultas realizadas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Profissional</th>
+                <th>Peso</th>
+                <th>Pressao arterial</th>
+                <th>Registro</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for consulta in consultas %}
+            <tr>
+                <td>{{ consulta['data_cons'] }}</td>
+                <td>{{ consulta['nome_prof'] }}</td>
+                <td>{{ consulta['peso'] }}</td>
+                <td>{{ consulta['press_art'] }}</td>
+                <td>{{ consulta['obs'] }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5">Nenhuma consulta registrada para esta gestacao.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const botoes = document.querySelectorAll('.toggle-button');
+    const campoDoencas = document.getElementById('doencas');
+
+    function atualizarSelecionadas() {
+        const selecionadas = Array.from(document.querySelectorAll('.toggle-button.on'))
+            .map((botao) => botao.getAttribute('data-id'));
+        campoDoencas.value = selecionadas.join(',');
+    }
+
+    botoes.forEach((botao) => {
+        botao.addEventListener('click', () => {
+            botao.classList.toggle('on');
+            botao.classList.toggle('off');
+            atualizarSelecionadas();
+        });
+    });
+
+    atualizarSelecionadas();
+</script>
+{% endblock %}

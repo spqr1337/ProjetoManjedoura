@@ -1,0 +1,18 @@
+<nav class="site-nav">
+    <a class="brand" href="{{ url_for('main.index') }}">Projeto Manjedoura</a>
+
+    <div class="nav-links">
+        <a href="{{ url_for('main.profissionais') }}">Profissionais</a>
+        <a href="{{ url_for('main.gestantes') }}">Gestantes</a>
+        <a href="{{ url_for('main.gestacoes') }}">Gestacoes</a>
+        <a href="{{ url_for('main.lista_gestacoes_ativas') }}">Consultas</a>
+        <a href="{{ url_for('main.pagina_relatorios') }}">Relatorios</a>
+    </div>
+
+    <div class="user-info">
+        {% if is_authenticated %}
+        <span>{{ nome_usuario or "Usuario" }}</span>
+        <a href="{{ url_for('main.logout') }}" class="logout-button">Sair</a>
+        {% endif %}
+    </div>
+</nav>
